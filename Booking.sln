@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31605.320
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booking.Web", "Booking.Web\Booking.Web.csproj", "{B7147A54-1A78-4C20-8FC5-F3A3CCDD188C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booking.Core", "Booking.Core\Booking.Core.csproj", "{527852FA-AC9E-4482-A8B1-7343D697F250}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booking.Data", "Booking.Data\Booking.Data.csproj", "{771DCE62-8B36-4E41-8A5E-5507BA4010EE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Booking.Web", "Booking.Web\Booking.Web.csproj", "{742FA56E-C08A-42A0-B28A-250FE27D44C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B7147A54-1A78-4C20-8FC5-F3A3CCDD188C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B7147A54-1A78-4C20-8FC5-F3A3CCDD188C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B7147A54-1A78-4C20-8FC5-F3A3CCDD188C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B7147A54-1A78-4C20-8FC5-F3A3CCDD188C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{527852FA-AC9E-4482-A8B1-7343D697F250}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{527852FA-AC9E-4482-A8B1-7343D697F250}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{527852FA-AC9E-4482-A8B1-7343D697F250}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -27,6 +23,10 @@ Global
 		{771DCE62-8B36-4E41-8A5E-5507BA4010EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{771DCE62-8B36-4E41-8A5E-5507BA4010EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{771DCE62-8B36-4E41-8A5E-5507BA4010EE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{742FA56E-C08A-42A0-B28A-250FE27D44C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{742FA56E-C08A-42A0-B28A-250FE27D44C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{742FA56E-C08A-42A0-B28A-250FE27D44C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{742FA56E-C08A-42A0-B28A-250FE27D44C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

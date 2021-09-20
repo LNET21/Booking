@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Booking.Web.Data
+namespace Booking.Data.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {

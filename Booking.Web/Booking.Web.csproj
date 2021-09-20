@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <UserSecretsId>aspnet-Booking.Web-04BD3349-BBBA-4CAA-B874-F2ED3ACD07D6</UserSecretsId>
+    <UserSecretsId>aspnet-Booking.Web-846071F7-B27F-49AD-84E1-C9E9C73484EC</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,6 +11,11 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.9" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Booking.Core\Booking.Core.csproj" />
+    <ProjectReference Include="..\Booking.Data\Booking.Data.csproj" />
   </ItemGroup>
 
 </Project>
