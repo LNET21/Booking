@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 
 namespace Booking.Core.Models.Entities
 {
-    class ApplicationUser : IdentityUser
+   public class ApplicationUser : IdentityUser
     {
+
+        public ICollection<ApplicationUserGymClass> AttendedClasses { get; set; }
+
     }
 }

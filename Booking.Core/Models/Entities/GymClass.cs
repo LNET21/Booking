@@ -14,5 +14,7 @@ namespace Booking.Core.Models.Entities
         public TimeSpan Duration { get; set; }
         public DateTime EndTime => StartDate + Duration;
         public string Description { get; set; }
+
+        public ICollection<ApplicationUserGymClass> AttendingMembers { get; set; }
     }
 }
