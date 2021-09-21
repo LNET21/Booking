@@ -10,6 +10,7 @@ using Booking.Data.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
+using Booking.Web.Extensions;
 
 namespace Booking.Web.Controllers
 {
@@ -18,7 +19,7 @@ namespace Booking.Web.Controllers
         private readonly ApplicationDbContext db;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public GymClassesController(ApplicationDbContext context,UserManager<ApplicationUser> userManager)
+        public GymClassesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             db = context ?? throw new ArgumentNullException(nameof(context));
             this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
@@ -51,7 +52,7 @@ namespace Booking.Web.Controllers
 
             var attending = await db.ApplicationUserGyms.FindAsync(userId, id);
 
-            if(attending is null)
+            if (attending is null)
             {
                 var booking = new ApplicationUserGymClass
                 {
@@ -93,7 +94,8 @@ namespace Booking.Web.Controllers
         // GET: GymClasses/Create
         public IActionResult Create()
         {
-            return View();
+
+            return Request.IsAjax() ? PartialView("CreatePartial") : View();
         }
 
         // POST: GymClasses/Create
@@ -107,8 +109,20 @@ namespace Booking.Web.Controllers
             {
                 db.Add(gymClass);
                 await db.SaveChangesAsync();
+
+                if (Request.IsAjax())
+                {
+                    return PartialView("GymClassesPartial", await db.GymClasses.ToListAsync());
+                }
+
                 return RedirectToAction(nameof(Index));
             }
+
+            if (Request.IsAjax())
+            {
+                return StatusCode(500);
+            }
+
             return View(gymClass);
         }
 
