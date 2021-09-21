@@ -116,6 +116,42 @@ namespace Booking.Web.Controllers
             return View(gymClass);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> NewEdit(int? id)
+        {
+            if (id is null)
+                return BadRequest();
+
+
+            var gymClass = db.GymClasses.Find(id);
+
+            if (await TryUpdateModelAsync(gymClass, "", g => g.Name, g => g.Duration))
+            {
+                try
+                {
+                    // _context.Update(gymClass);
+                    await db.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!GymClassExists(gymClass.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(gymClass);
+        }
+
+
+
         // GET: GymClasses/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

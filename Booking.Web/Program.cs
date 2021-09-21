@@ -23,8 +23,8 @@ namespace Booking.Web
                 var services = scope.ServiceProvider;
                 var context = services.GetRequiredService<ApplicationDbContext>();
 
-                context.Database.EnsureDeleted();
-                context.Database.Migrate();
+                //context.Database.EnsureDeleted();
+                //context.Database.Migrate();
 
                 //dotnet user-secrets set "AdminPW" "BytMig123!"
                 var config = services.GetRequiredService<IConfiguration>();
