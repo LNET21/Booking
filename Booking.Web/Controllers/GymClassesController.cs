@@ -91,6 +91,11 @@ namespace Booking.Web.Controllers
             return View(gymClass);
         }
 
+        public ActionResult Fetch()
+        {
+            return PartialView("CreatePartial");
+        }
+
         // GET: GymClasses/Create
         public IActionResult Create()
         {
@@ -112,7 +117,8 @@ namespace Booking.Web.Controllers
 
                 if (Request.IsAjax())
                 {
-                    return PartialView("GymClassesPartial", await db.GymClasses.ToListAsync());
+                   // return PartialView("GymClassesPartial", await db.GymClasses.ToListAsync());
+                    return PartialView("GymClassPartial", gymClass);
                 }
 
                 return RedirectToAction(nameof(Index));
