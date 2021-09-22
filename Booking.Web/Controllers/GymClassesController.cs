@@ -37,18 +37,6 @@ namespace Booking.Web.Controllers
             if (id is null) return BadRequest();
 
             var userId = userManager.GetUserId(User);
-            //Check for null
-
-            //var userId = (await userManager.GetUserAsync(User))?.Id;
-            //var userId2 = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-
-            //var currentGymClass = await db.GymClasses
-            //    .Include(g => g.AttendingMembers)
-            //    .FirstOrDefaultAsync(a => a.Id == id);
-
-            //var attending = currentGymClass?.AttendingMembers
-            //                                .FirstOrDefault(a => a.ApplicationUserId == userId);
 
             var attending = await db.ApplicationUserGyms.FindAsync(userId, id);
 
@@ -94,12 +82,16 @@ namespace Booking.Web.Controllers
         public ActionResult Fetch()
         {
             return PartialView("CreatePartial");
+        } 
+        
+        public ActionResult Ajax()
+        {
+            return PartialView("CreatePartial");
         }
 
         // GET: GymClasses/Create
         public IActionResult Create()
         {
-
             return Request.IsAjax() ? PartialView("CreatePartial") : View();
         }
 
