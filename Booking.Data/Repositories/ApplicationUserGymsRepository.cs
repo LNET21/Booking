@@ -22,5 +22,15 @@ namespace Booking.Data.Repositories
         {
             return await db.ApplicationUserGyms.FindAsync(userId, id);
         }
+
+        public void Add(ApplicationUserGymClass booking)
+        {
+            db.Add(booking);
+        }
+
+        public void Remove(ApplicationUserGymClass attending)
+        {
+            db.Remove(attending);
+        }
     }
 }

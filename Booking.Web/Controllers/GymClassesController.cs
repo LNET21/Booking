@@ -18,16 +18,16 @@ namespace Booking.Web.Controllers
 {
     public class GymClassesController : Controller
     {
-        private readonly ApplicationDbContext db;
+        //private readonly ApplicationDbContext db;
         private readonly IUnitOfWork uow;
 
         //private readonly GymClassRepository gymClassRepository;
         //private readonly ApplicationUserGymsRepository appUserGymClassRepository;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public GymClassesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IUnitOfWork unitOfWork)
+        public GymClassesController(UserManager<ApplicationUser> userManager, IUnitOfWork unitOfWork)
         {
-            db = context ?? throw new ArgumentNullException(nameof(context));
+            //db = context ?? throw new ArgumentNullException(nameof(context));
             uow = unitOfWork;
             //uow = new UnitOfWork(db);
             //gymClassRepository = new GymClassRepository(context);
@@ -61,14 +61,14 @@ namespace Booking.Web.Controllers
                     GymClassId = (int)id
                 };
 
-                db.ApplicationUserGyms.Add(booking);
+                uow.AppUserGymClassRepository.Add(booking);
             }
             else
             {
-                db.ApplicationUserGyms.Remove(attending);
+                uow.AppUserGymClassRepository.Remove(attending);
             }
 
-            await db.SaveChangesAsync();
+            await uow.CompleteAsync();
 
 
             return RedirectToAction(nameof(Index));
@@ -83,9 +83,7 @@ namespace Booking.Web.Controllers
             {
                 return NotFound();
             }
-
-            var gymClass = await db.GymClasses
-                .FirstOrDefaultAsync(m => m.Id == id);
+            GymClass gymClass = await uow.GymClassRepository.GetAsync((int)id);
             if (gymClass == null)
             {
                 return NotFound();
@@ -93,6 +91,8 @@ namespace Booking.Web.Controllers
 
             return View(gymClass);
         }
+
+       
 
         public ActionResult Fetch()
         {
@@ -119,8 +119,8 @@ namespace Booking.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Add(gymClass);
-                await db.SaveChangesAsync();
+                uow.GymClassRepository.Add(gymClass);
+                await uow.CompleteAsync();
 
                 if (Request.IsAjax())
                 {
@@ -174,12 +174,12 @@ namespace Booking.Web.Controllers
             {
                 try
                 {
-                    db.Update(gymClass);
-                    await db.SaveChangesAsync();
+                    uow.GymClassRepository.Update(gymClass);
+                    await uow.CompleteAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GymClassExists(gymClass.Id))
+                    if (! await GymClassExists(gymClass.Id))
                     {
                         return NotFound();
                     }
@@ -201,18 +201,18 @@ namespace Booking.Web.Controllers
                 return BadRequest();
 
 
-            var gymClass = db.GymClasses.Find(id);
+            var gymClass = await uow.GymClassRepository.FindAsync(id);
 
             if (await TryUpdateModelAsync(gymClass, "", g => g.Name, g => g.Duration))
             {
                 try
                 {
                     // _context.Update(gymClass);
-                    await db.SaveChangesAsync();
+                    await uow.CompleteAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!GymClassExists(gymClass.Id))
+                    if (! await GymClassExists(gymClass.Id))
                     {
                         return NotFound();
                     }
@@ -228,7 +228,6 @@ namespace Booking.Web.Controllers
         }
 
 
-
         // GET: GymClasses/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -237,8 +236,8 @@ namespace Booking.Web.Controllers
                 return NotFound();
             }
 
-            var gymClass = await db.GymClasses
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var gymClass = await uow.GymClassRepository.GetAsync((int)id);
+
             if (gymClass == null)
             {
                 return NotFound();
@@ -252,15 +251,15 @@ namespace Booking.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var gymClass = await db.GymClasses.FindAsync(id);
-            db.GymClasses.Remove(gymClass);
-            await db.SaveChangesAsync();
+            var gymClass = await uow.GymClassRepository.FindAsync((int)id);
+            uow.GymClassRepository.Remove(gymClass);
+            await uow.CompleteAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool GymClassExists(int id)
+        private async Task<bool> GymClassExists(int id)
         {
-            return db.GymClasses.Any(e => e.Id == id);
+            return await uow.GymClassRepository.AnyAsync(id);
         }
     }
 }

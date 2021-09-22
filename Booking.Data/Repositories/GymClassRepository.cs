@@ -24,6 +24,12 @@ namespace Booking.Data.Repositories
             return await db.GymClasses.ToListAsync();
         }
 
+        public async Task<GymClass> GetAsync(int id)
+        {
+            return await db.GymClasses
+                .FirstOrDefaultAsync(m => m.Id == id);
+        }
+
         public async Task<GymClass> FindAsync(int? id)
         {
             return await db.GymClasses.FindAsync(id);
@@ -34,5 +40,19 @@ namespace Booking.Data.Repositories
             db.Add(gymClas);
         }
 
+        public void Update(GymClass gymClass)
+        {
+            db.Update(gymClass);
+        }
+
+        public void Remove(GymClass gymClass)
+        {
+            db.GymClasses.Remove(gymClass);
+        }
+
+        public async Task<bool> AnyAsync(int id)
+        {
+            return await db.GymClasses.AnyAsync(g => g.Id == id);
+        }
     }
 }
