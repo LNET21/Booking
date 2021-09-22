@@ -14,6 +14,7 @@ function callback() {
         .then(res => res.text())
         .then(data => {
             target.innerHTML = data;
+            fixvalidation();
         })
         .catch(err => console.log(err));
 }
@@ -41,5 +42,12 @@ $('#ajax').click(function () {
 });
 
 function success(response) {
-        target.innerHTML = response;
+    target.innerHTML = response;
+    fixvalidation();
+}
+
+function fixvalidation() {
+    console.log('Create Form loaded');
+    const form = target.querySelector('form');
+    $.validator.unobtrusive.parse(form);
 }
