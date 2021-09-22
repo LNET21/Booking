@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace Booking.Data.Repositories
+namespace Booking.Core.Repositories
 {
     public interface IUnitOfWork
     {

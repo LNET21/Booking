@@ -1,7 +1,7 @@
 ﻿using Booking.Core.Models.Entities;
 using System.Threading.Tasks;
 
-namespace Booking.Data.Repositories
+namespace Booking.Core.Repositories
 {
     public interface IApplicationUserGymsRepository
     {

@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Booking.Web.Extensions;
 using Booking.Data.Repositories;
+using Booking.Core.Repositories;
 
 namespace Booking.Web.Controllers
 {

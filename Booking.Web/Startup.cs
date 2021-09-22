@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Booking.Data.Repositories;
+using Booking.Core.Repositories;
 
 namespace Booking.Web
 {
