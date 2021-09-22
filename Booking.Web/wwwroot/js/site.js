@@ -26,6 +26,11 @@ function fail() {
     console.log('fail');
 };
 
+function failcreate(response) {
+    console.log(response, 'fail to add gymclass');
+    target.innerHTML = response.responseText;
+};
+
 $('#ajax').click(function () {
     $.ajax({
         url: "https://localhost:44339/gymclasses/ajax",

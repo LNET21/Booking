@@ -38,7 +38,10 @@ namespace Booking.Web
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews(opt => 
+            {
+                //opt.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(s => "The field is required");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
