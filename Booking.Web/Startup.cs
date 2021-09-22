@@ -15,6 +15,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Booking.Data.Repositories;
 
 namespace Booking.Web
 {
@@ -51,6 +52,8 @@ namespace Booking.Web
                 //Default error message
                 //opt.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(s => "The field is required");
             });
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

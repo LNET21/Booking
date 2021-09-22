@@ -11,17 +11,26 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Booking.Web.Extensions;
+using Booking.Data.Repositories;
 
 namespace Booking.Web.Controllers
 {
     public class GymClassesController : Controller
     {
         private readonly ApplicationDbContext db;
+        private readonly IUnitOfWork uow;
+
+        //private readonly GymClassRepository gymClassRepository;
+        //private readonly ApplicationUserGymsRepository appUserGymClassRepository;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public GymClassesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
+        public GymClassesController(ApplicationDbContext context, UserManager<ApplicationUser> userManager, IUnitOfWork unitOfWork)
         {
             db = context ?? throw new ArgumentNullException(nameof(context));
+            uow = unitOfWork;
+            //uow = new UnitOfWork(db);
+            //gymClassRepository = new GymClassRepository(context);
+            //appUserGymClassRepository = new ApplicationUserGymsRepository(context);
             this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         }
 
@@ -29,8 +38,10 @@ namespace Booking.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            return View(await db.GymClasses.ToListAsync());
+            return base.View(await uow.GymClassRepository.GetAsync());
         }
+
+        
 
         [Authorize]
         public async Task<IActionResult> BookingToggle(int? id)
@@ -39,7 +50,7 @@ namespace Booking.Web.Controllers
 
             var userId = userManager.GetUserId(User);
 
-            var attending = await db.ApplicationUserGyms.FindAsync(userId, id);
+            var attending = await uow.AppUserGymClassRepository.FindAsync(id, userId);
 
             if (attending is null)
             {
@@ -61,6 +72,8 @@ namespace Booking.Web.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+       
 
         // GET: GymClasses/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -134,13 +147,15 @@ namespace Booking.Web.Controllers
                 return NotFound();
             }
 
-            var gymClass = await db.GymClasses.FindAsync(id);
+            var gymClass = await uow.GymClassRepository.FindAsync(id);
             if (gymClass == null)
             {
                 return NotFound();
             }
             return View(gymClass);
         }
+
+       
 
         // POST: GymClasses/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
