@@ -26,6 +26,7 @@ namespace Booking.Web.Controllers
         }
 
         // GET: GymClasses
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             return View(await db.GymClasses.ToListAsync());

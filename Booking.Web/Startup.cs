@@ -1,5 +1,7 @@
 using Booking.Core.Models.Entities;
 using Booking.Data.Data;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -40,6 +42,13 @@ namespace Booking.Web
 
             services.AddControllersWithViews(opt => 
             {
+                var policy = new AuthorizationPolicyBuilder()
+                                    .RequireAuthenticatedUser()
+                                    .Build();
+
+                opt.Filters.Add(new AuthorizeFilter(policy));
+
+                //Default error message
                 //opt.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(s => "The field is required");
             });
         }
