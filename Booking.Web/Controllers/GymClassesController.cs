@@ -13,21 +13,25 @@ using System.Security.Claims;
 using Booking.Web.Extensions;
 using Booking.Data.Repositories;
 using Booking.Core.Repositories;
+using Booking.Core.Models.ViewModels.GymClasses;
+using AutoMapper;
 
 namespace Booking.Web.Controllers
 {
     public class GymClassesController : Controller
     {
-        //private readonly ApplicationDbContext db;
+        private readonly ApplicationDbContext db;
+        private readonly IMapper mapper;
         private readonly IUnitOfWork uow;
 
         //private readonly GymClassRepository gymClassRepository;
         //private readonly ApplicationUserGymsRepository appUserGymClassRepository;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public GymClassesController(UserManager<ApplicationUser> userManager, IUnitOfWork unitOfWork)
+        public GymClassesController(UserManager<ApplicationUser> userManager, IUnitOfWork unitOfWork, ApplicationDbContext context, IMapper mapper)
         {
-            //db = context ?? throw new ArgumentNullException(nameof(context));
+            db = context ?? throw new ArgumentNullException(nameof(context));
+            this.mapper = mapper;
             uow = unitOfWork;
             //uow = new UnitOfWork(db);
             //gymClassRepository = new GymClassRepository(context);
@@ -39,10 +43,56 @@ namespace Booking.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            return base.View(await uow.GymClassRepository.GetAsync());
+            //var res1 = mapper.ProjectTo<GymClassesViewModel>(db.GymClasses);
+
+
+            //if (!User.Identity.IsAuthenticated)
+            //{
+            //    var model1 = new IndexViewModel
+            //    {
+            //        GymClasses = await db.GymClasses.Include(g => g.AttendingMembers) //Not required
+            //                                  .Select(g => new GymClassesViewModel
+            //                                  {
+            //                                      Id = g.Id,
+            //                                      Name = g.Name,
+            //                                      Duration = g.Duration.GetValueOrDefault(),
+            //                                      StartDate = g.StartDate.GetValueOrDefault(),
+            //                                      // Attending = g.AttendingMembers.Any(a => a.ApplicationUserId == )
+            //                                  })
+            //                                  .ToListAsync(),
+
+            //    };
+
+            //    return View(model1);
+            //}
+
+            if (User.Identity.IsAuthenticated)
+            {
+                var userId = userManager.GetUserId(User);
+                var classes = db.GymClasses.Include(g => g.AttendingMembers).ToList();
+                var res2 = mapper.Map<IEnumerable<GymClassesViewModel>>(classes, opt => opt.Items.Add("Id", userId));
+              
+            }
+
+            //var model2 = new IndexViewModel
+            //{
+            //    GymClasses = await db.GymClasses.Include(g => g.AttendingMembers) //Not required
+            //                           .Select(g => new GymClassesViewModel
+            //                           {
+            //                               Id = g.Id,
+            //                               Name = g.Name,
+            //                               Duration = g.Duration.GetValueOrDefault(),
+            //                               StartDate = g.StartDate.GetValueOrDefault(),
+            //                               Attending = g.AttendingMembers.Any(a => a.ApplicationUserId == userId)
+            //                           })
+            //                           .ToListAsync(),
+
+            //};
+
+            return View(await uow.GymClassRepository.GetAsync());
         }
 
-        
+
 
         [Authorize]
         public async Task<IActionResult> BookingToggle(int? id)
@@ -74,7 +124,7 @@ namespace Booking.Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-       
+
 
         // GET: GymClasses/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -92,13 +142,13 @@ namespace Booking.Web.Controllers
             return View(gymClass);
         }
 
-       
+
 
         public ActionResult Fetch()
         {
             return PartialView("CreatePartial");
-        } 
-        
+        }
+
         public ActionResult Ajax()
         {
             return PartialView("CreatePartial");
@@ -124,7 +174,7 @@ namespace Booking.Web.Controllers
 
                 if (Request.IsAjax())
                 {
-                   // return PartialView("GymClassesPartial", await db.GymClasses.ToListAsync());
+                    // return PartialView("GymClassesPartial", await db.GymClasses.ToListAsync());
                     return PartialView("GymClassPartial", gymClass);
                 }
 
@@ -156,7 +206,7 @@ namespace Booking.Web.Controllers
             return View(gymClass);
         }
 
-       
+
 
         // POST: GymClasses/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -179,7 +229,7 @@ namespace Booking.Web.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (! await GymClassExists(gymClass.Id))
+                    if (!await GymClassExists(gymClass.Id))
                     {
                         return NotFound();
                     }
@@ -212,7 +262,7 @@ namespace Booking.Web.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (! await GymClassExists(gymClass.Id))
+                    if (!await GymClassExists(gymClass.Id))
                     {
                         return NotFound();
                     }
