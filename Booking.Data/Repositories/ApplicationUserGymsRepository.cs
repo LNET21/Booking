@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Booking.Data.Repositories
 {
-    public class ApplicationUserGymsRepository : IApplicationUserGymsRepository
+    public class ApplicationUserGymsRepository:  IApplicationUserGymsRepository
     {
         private readonly ApplicationDbContext db;
 
@@ -18,19 +18,19 @@ namespace Booking.Data.Repositories
             this.db = db ?? throw new ArgumentNullException(nameof(db));
         }
 
+        public void Add(ApplicationUserGymClass entity)
+        {
+            db.Add(entity);
+        }
+
         public async Task<ApplicationUserGymClass> FindAsync(int? id, string userId)
         {
             return await db.ApplicationUserGyms.FindAsync(userId, id);
         }
 
-        public void Add(ApplicationUserGymClass booking)
+        public void Remove(ApplicationUserGymClass entity)
         {
-            db.Add(booking);
-        }
-
-        public void Remove(ApplicationUserGymClass attending)
-        {
-            db.Remove(attending);
+            db.Remove(entity);
         }
     }
 }

@@ -4,14 +4,8 @@ using System.Threading.Tasks;
 
 namespace Booking.Core.Repositories
 {
-    public interface IGymClassRepository
+    public interface IGymClassRepository : IGenericRepository<GymClass>
     {
-        void Add(GymClass gymClas);
-        Task<IEnumerable<GymClass>> GetAsync();
-        Task<GymClass> FindAsync(int? id);
-        Task<GymClass> GetAsync(int id);
-        void Update(GymClass gymClass);
-        void Remove(GymClass gymClass);
-        Task<bool> AnyAsync(int id);
+
     }
 }

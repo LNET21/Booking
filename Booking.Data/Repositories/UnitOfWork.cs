@@ -1,4 +1,5 @@
-﻿using Booking.Core.Repositories;
+﻿using Booking.Core.Models.Entities;
+using Booking.Core.Repositories;
 using Booking.Data.Data;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace Booking.Data.Repositories
         public UnitOfWork(ApplicationDbContext db)
         {
             this.db = db;
-            GymClassRepository = new GymClassRepository(db);
+            GymClassRepository =  new GymClassRepository(db);
             AppUserGymClassRepository = new ApplicationUserGymsRepository(db);
         }
 

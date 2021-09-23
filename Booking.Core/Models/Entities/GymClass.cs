@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace Booking.Core.Models.Entities
 {
-    public class GymClass
+    public class GymClass : Entity
     {
-        public int Id { get; set; }
 
         [Required]
         public string Name { get; set; }

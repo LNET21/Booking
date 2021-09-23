@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Booking.Core.Models.Entities
 {
-   public class ApplicationUserGymClass
+   public class ApplicationUserGymClass 
     {
         public int GymClassId { get; set; }
         public string ApplicationUserId { get; set; }        
