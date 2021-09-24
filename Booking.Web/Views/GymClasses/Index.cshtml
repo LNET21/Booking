@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Booking.Core.Models.Entities.GymClass>
+﻿@model IndexViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -8,40 +8,34 @@
 
 <div id="createajax"></div>
 
-<div>
-    <a asp-action="Create">Create Original</a>
+@if (User.IsInRole("Admin"))
+{
 
-    <a asp-action="Create" class="btn btn-dark"
-       data-ajax="true"
-       data-ajax-method="GET"
-       data-ajax-update="#createajax"
-       data-ajax-mode="replace"
-       data-ajax-success="fixvalidation"
-       >Create Ajax</a>
+    <div>
+        <a asp-action="Create">Create Original</a>
 
-    <p id="ajax" class="btn btn-dark">Ajax manuellt</p>
-    <p id="fetch" class="btn btn-dark">Fetch</p>
+        <a asp-action="Create" class="btn btn-dark"
+           data-ajax="true"
+           data-ajax-method="GET"
+           data-ajax-update="#createajax"
+           data-ajax-mode="replace"
+           data-ajax-success="fixvalidation">Create Ajax</a>
 
-</div>
+        <p id="ajax" class="btn btn-dark">Ajax manuellt</p>
+        <p id="fetch" class="btn btn-dark">Fetch</p>
+    </div>
+}
+
 <table class="table">
     <thead>
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Duration)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
+            <th>    @Html.DisplayNameFor(model => model.GymClasses.FirstOrDefault().Name)       </th>
+            <th>    @Html.DisplayNameFor(model => model.GymClasses.FirstOrDefault().StartDate)  </th>
+            <th>    @Html.DisplayNameFor(model => model.GymClasses.FirstOrDefault().Duration)   </th>
             <th></th>
         </tr>
     </thead>
     <tbody id="gymclasses">
-        <partial name="GymClassesPartial" />
+        <partial name="GymClassesPartial" model="@Model.GymClasses" />
     </tbody>
 </table>
