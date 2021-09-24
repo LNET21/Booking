@@ -24,6 +24,10 @@ namespace Booking.Data.Data
 
             CreateMap<GymClass, GymClassesViewModel>()
                .ForMember(dest => dest.Attending, from => from.MapFrom<AttendingResolver>());
+
+            CreateMap<IEnumerable<GymClass>, IndexViewModel>()
+                .ForMember(dest => dest.ShowHistory, opt => opt.Ignore())
+                .ForMember(dest => dest.GymClasses, from => from.MapFrom(g => g.ToList()));
               
         }
     }

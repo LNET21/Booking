@@ -38,32 +38,12 @@ namespace Booking.Web.Controllers
 
             if (!User.Identity.IsAuthenticated)
             {
-                var model1 = mapper.Map<IndexViewModel>(await uow.GymClassRepository.GetWithAttendingAsync());
-                return View(model1);
+                return View(mapper.Map<IndexViewModel>(await uow.GymClassRepository.GetWithAttendingAsync()));
             }
+       
+            var model = mapper.Map<IndexViewModel>(await uow.GymClassRepository.GetWithAttendingAsync());
 
-            if (User.Identity.IsAuthenticated)
-            {
-                var classes = await uow.GymClassRepository.GetWithAttendingAsync();
-                var res2 = mapper.Map<IEnumerable<GymClassesViewModel>>(classes);
-            }
-
-            //var model2 = new IndexViewModel
-            //{
-            //    GymClasses = await db.GymClasses.Include(g => g.AttendingMembers) //Not required
-            //                           .Select(g => new GymClassesViewModel
-            //                           {
-            //                               Id = g.Id,
-            //                               Name = g.Name,
-            //                               Duration = g.Duration.GetValueOrDefault(),
-            //                               StartDate = g.StartDate.GetValueOrDefault(),
-            //                               Attending = g.AttendingMembers.Any(a => a.ApplicationUserId == userId)
-            //                           })
-            //                           .ToListAsync(),
-
-            //};
-
-            return View(await uow.GymClassRepository.GetAsync());
+            return View(model);
         }
 
        
