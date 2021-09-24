@@ -14,5 +14,6 @@ namespace Booking.Core.Repositories
         void Remove(GymClass gymClass);
         Task<bool> AnyAsync(int id);
         Task<IEnumerable<GymClass>> GetWithAttendingAsync();
+        Task<IEnumerable<GymClass>> GetHistoryAsync();
     }
 }

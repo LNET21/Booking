@@ -46,6 +46,7 @@ namespace Booking.Web
             {
                 var policy = new AuthorizationPolicyBuilder()
                                     .RequireAuthenticatedUser()
+                                    .RequireRole("Member")
                                     .Build();
 
                 opt.Filters.Add(new AuthorizeFilter(policy));

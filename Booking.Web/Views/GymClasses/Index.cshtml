@@ -24,6 +24,15 @@
         <p id="ajax" class="btn btn-dark">Ajax manuellt</p>
         <p id="fetch" class="btn btn-dark">Fetch</p>
     </div>
+
+    <form asp-action="Index">
+        <dl class="row">
+            <dt class="col-sm-10">History</dt>
+            <dd class="col-sm-2">
+                <input class="form-control" type="checkbox" asp-for="ShowHistory" id="checkbox" />
+            </dd>
+        </dl>
+    </form>
 }
 
 <table class="table">

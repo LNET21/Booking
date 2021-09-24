@@ -51,3 +51,7 @@ function fixvalidation() {
     const form = target.querySelector('form');
     $.validator.unobtrusive.parse(form);
 }
+
+$('#checkbox').click(function() {
+    $('form').submit();
+});

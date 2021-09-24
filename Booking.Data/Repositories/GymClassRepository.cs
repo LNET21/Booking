@@ -59,5 +59,14 @@ namespace Booking.Data.Repositories
         {
             return await db.GymClasses.AnyAsync(g => g.Id == id);
         }
+
+        public async Task<IEnumerable<GymClass>> GetHistoryAsync()
+        {
+            return await db.GymClasses
+                        .Include(g => g.AttendingMembers)
+                        .IgnoreQueryFilters()
+                        .Where(g => g.StartDate < DateTime.Now)
+                        .ToListAsync();
+        }
     }
 }

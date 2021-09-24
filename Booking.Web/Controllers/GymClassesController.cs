@@ -35,20 +35,19 @@ namespace Booking.Web.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index(IndexViewModel vm)
         {
-
             if (!User.Identity.IsAuthenticated)
-            {
-                return View(mapper.Map<IndexViewModel>(await uow.GymClassRepository.GetWithAttendingAsync()));
-            }
-       
-            var model = mapper.Map<IndexViewModel>(await uow.GymClassRepository.GetWithAttendingAsync());
+                return View(mapper.Map<IndexViewModel>(await uow.GymClassRepository.GetAsync()));
 
-            return View(model);
+            var data = vm.ShowHistory ?
+                       await uow.GymClassRepository.GetHistoryAsync() :
+                       await uow.GymClassRepository.GetWithAttendingAsync();
+
+            return View(mapper.Map<IndexViewModel>(data));
         }
 
        
 
-        [Authorize]
+       // [Authorize]
         public async Task<IActionResult> BookingToggle(int? id)
         {
             if (id is null) return BadRequest();
@@ -109,6 +108,7 @@ namespace Booking.Web.Controllers
         }
 
         // GET: GymClasses/Create
+        [Authorize(Roles ="Admin")]
         public IActionResult Create()
         {
             return Request.IsAjax() ? PartialView("CreatePartial") : View();
@@ -119,6 +119,7 @@ namespace Booking.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Create([Bind("Id,Name,StartDate,Duration,Description")] GymClass gymClass)
         {
             if (ModelState.IsValid)
@@ -145,6 +146,7 @@ namespace Booking.Web.Controllers
         }
 
         // GET: GymClasses/Edit/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -167,6 +169,7 @@ namespace Booking.Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,StartDate,Duration,Description")] GymClass gymClass)
         {
             if (id != gymClass.Id)
@@ -199,6 +202,7 @@ namespace Booking.Web.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> NewEdit(int? id)
         {
             if (id is null)
@@ -233,6 +237,7 @@ namespace Booking.Web.Controllers
 
 
         // GET: GymClasses/Delete/5
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -253,6 +258,7 @@ namespace Booking.Web.Controllers
         // POST: GymClasses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var gymClass = await uow.GymClassRepository.FindAsync((int)id);

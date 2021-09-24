@@ -9,7 +9,8 @@ namespace Booking.Core.Models.Entities
 {
    public class ApplicationUser : IdentityUser
     {
-
+        public string FirstName { get; set; }
+        public DateTime TimeOfRegistration { get; set; }
         public ICollection<ApplicationUserGymClass> AttendedClasses { get; set; }
 
     }
