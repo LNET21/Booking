@@ -33,30 +33,14 @@ namespace Booking.Web.Controllers
 
         // GET: GymClasses
         [AllowAnonymous]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(IndexViewModel vm)
         {
-            //var res1 = mapper.ProjectTo<GymClassesViewModel>(db.GymClasses);
 
-
-            //if (!User.Identity.IsAuthenticated)
-            //{
-            //    var model1 = new IndexViewModel
-            //    {
-            //        GymClasses = await db.GymClasses.Include(g => g.AttendingMembers) //Not required
-            //                                  .Select(g => new GymClassesViewModel
-            //                                  {
-            //                                      Id = g.Id,
-            //                                      Name = g.Name,
-            //                                      Duration = g.Duration.GetValueOrDefault(),
-            //                                      StartDate = g.StartDate.GetValueOrDefault(),
-            //                                      // Attending = g.AttendingMembers.Any(a => a.ApplicationUserId == )
-            //                                  })
-            //                                  .ToListAsync(),
-
-            //    };
-
-            //    return View(model1);
-            //}
+            if (!User.Identity.IsAuthenticated)
+            {
+                var model1 = mapper.Map<IndexViewModel>(await uow.GymClassRepository.GetWithAttendingAsync());
+                return View(model1);
+            }
 
             if (User.Identity.IsAuthenticated)
             {
