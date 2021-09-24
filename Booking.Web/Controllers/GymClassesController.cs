@@ -20,22 +20,14 @@ namespace Booking.Web.Controllers
 {
     public class GymClassesController : Controller
     {
-        private readonly ApplicationDbContext db;
         private readonly IMapper mapper;
         private readonly IUnitOfWork uow;
-
-        //private readonly GymClassRepository gymClassRepository;
-        //private readonly ApplicationUserGymsRepository appUserGymClassRepository;
         private readonly UserManager<ApplicationUser> userManager;
 
-        public GymClassesController(UserManager<ApplicationUser> userManager, IUnitOfWork unitOfWork, ApplicationDbContext context, IMapper mapper)
+        public GymClassesController(UserManager<ApplicationUser> userManager, IUnitOfWork unitOfWork, IMapper mapper)
         {
-            db = context ?? throw new ArgumentNullException(nameof(context));
             this.mapper = mapper;
             uow = unitOfWork;
-            //uow = new UnitOfWork(db);
-            //gymClassRepository = new GymClassRepository(context);
-            //appUserGymClassRepository = new ApplicationUserGymsRepository(context);
             this.userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         }
 
@@ -70,7 +62,6 @@ namespace Booking.Web.Controllers
             {
                 var classes = await uow.GymClassRepository.GetWithAttendingAsync();
                 var res2 = mapper.Map<IEnumerable<GymClassesViewModel>>(classes);
-
             }
 
             //var model2 = new IndexViewModel
