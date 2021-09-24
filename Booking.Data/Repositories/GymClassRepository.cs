@@ -19,6 +19,11 @@ namespace Booking.Data.Repositories
             this.db = db ?? throw new ArgumentNullException(nameof(db));
         }
 
+        public async Task<IEnumerable<GymClass>> GetWithAttendingAsync()
+        {
+            return await db.GymClasses.Include(g => g.AttendingMembers).ToListAsync();
+        }
+
         public async Task<IEnumerable<GymClass>> GetAsync()
         {
             return await db.GymClasses.ToListAsync();

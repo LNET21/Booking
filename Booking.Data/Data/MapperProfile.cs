@@ -28,23 +28,29 @@ namespace Booking.Data.Data
         }
     }
 
+    //public class AttendingResolver : IValueResolver<GymClass, GymClassesViewModel, bool>
+    //{
+    //    public bool Resolve(GymClass source, GymClassesViewModel destination, bool destMember, ResolutionContext context)
+    //    {
+    //       return source.AttendingMembers != null && context.Items.TryGetValue("Id", out object key)
+    //            && (key is string id && source.AttendingMembers.Any(a => a.ApplicationUserId == id));
+    //    }
+    //} 
+    
     public class AttendingResolver : IValueResolver<GymClass, GymClassesViewModel, bool>
     {
-        //private readonly IHttpContextAccessor httpContextAccessor;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
-        //public AttendingResolver(IHttpContextAccessor httpContextAccessor)
-        //{
-        //    this.httpContextAccessor = httpContextAccessor;
-        //}
+        public AttendingResolver(IHttpContextAccessor httpContextAccessor)
+        {
+            this.httpContextAccessor = httpContextAccessor;
+        }
 
         public bool Resolve(GymClass source, GymClassesViewModel destination, bool destMember, ResolutionContext context)
         {
-            if (source.AttendingMembers == null || context.Items.Count == 0) return false;
-            return source.AttendingMembers.Any(a => a.ApplicationUserId == context.Items["Id"].ToString());
 
-            //From Http Context
-            //return source.AttendingMembers is null ?  false : 
-            //      source.AttendingMembers.Any(a => a.ApplicationUserId == httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+            return source.AttendingMembers is null ? false :
+                  source.AttendingMembers.Any(a => a.ApplicationUserId == httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
         }
     }
 }

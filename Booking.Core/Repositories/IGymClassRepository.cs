@@ -13,5 +13,6 @@ namespace Booking.Core.Repositories
         void Update(GymClass gymClass);
         void Remove(GymClass gymClass);
         Task<bool> AnyAsync(int id);
+        Task<IEnumerable<GymClass>> GetWithAttendingAsync();
     }
 }

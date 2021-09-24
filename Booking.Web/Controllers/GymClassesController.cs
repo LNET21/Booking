@@ -68,10 +68,9 @@ namespace Booking.Web.Controllers
 
             if (User.Identity.IsAuthenticated)
             {
-                var userId = userManager.GetUserId(User);
-                var classes = db.GymClasses.Include(g => g.AttendingMembers).ToList();
-                var res2 = mapper.Map<IEnumerable<GymClassesViewModel>>(classes, opt => opt.Items.Add("Id", userId));
-              
+                var classes = await uow.GymClassRepository.GetWithAttendingAsync();
+                var res2 = mapper.Map<IEnumerable<GymClassesViewModel>>(classes);
+
             }
 
             //var model2 = new IndexViewModel
@@ -92,7 +91,7 @@ namespace Booking.Web.Controllers
             return View(await uow.GymClassRepository.GetAsync());
         }
 
-
+       
 
         [Authorize]
         public async Task<IActionResult> BookingToggle(int? id)
