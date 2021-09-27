@@ -15,6 +15,7 @@ using Booking.Data.Repositories;
 using Booking.Core.Repositories;
 using Booking.Core.Models.ViewModels.GymClasses;
 using AutoMapper;
+using Booking.Web.Filters;
 
 namespace Booking.Web.Controllers
 {
@@ -80,18 +81,10 @@ namespace Booking.Web.Controllers
 
 
         // GET: GymClasses/Details/5
+        [RequiredParameterRequiredModel("Id)")]
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
             GymClass gymClass = await uow.GymClassRepository.GetAsync((int)id);
-            if (gymClass == null)
-            {
-                return NotFound();
-            }
-
             return View(gymClass);
         }
 

@@ -36,11 +36,11 @@ namespace Booking.Data.Data
     //{
     //    public bool Resolve(GymClass source, GymClassesViewModel destination, bool destMember, ResolutionContext context)
     //    {
-    //       return source.AttendingMembers != null && context.Items.TryGetValue("Id", out object key)
-    //            && (key is string id && source.AttendingMembers.Any(a => a.ApplicationUserId == id));
+    //        return source.AttendingMembers != null && context.Items.TryGetValue("Id", out object key)
+    //             && (key is string id && source.AttendingMembers.Any(a => a.ApplicationUserId == id));
     //    }
-    //} 
-    
+    //}
+
     public class AttendingResolver : IValueResolver<GymClass, GymClassesViewModel, bool>
     {
         private readonly IHttpContextAccessor httpContextAccessor;
@@ -54,7 +54,7 @@ namespace Booking.Data.Data
         {
 
             return source.AttendingMembers is null ? false :
-                  source.AttendingMembers.Any(a => a.ApplicationUserId == httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier));
+                  source.AttendingMembers.Any(a => a.ApplicationUserId == httpContextAccessor?.HttpContext?.User?.FindFirstValue(ClaimTypes.NameIdentifier));
         }
     }
 }
